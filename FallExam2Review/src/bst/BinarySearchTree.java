@@ -31,7 +31,7 @@ public class BinarySearchTree {
 	 * Should be implemented using tree recursion in O(n) time
 	 */
 	boolean hasPositiveProduct () {
-		return false;
+		return root.product() > 0;
 	}
 	
 	/**
@@ -40,14 +40,14 @@ public class BinarySearchTree {
 	 * If the search fails, return null;
 	 */
 	ArrayList<Integer> rejectedNodes(int item) {
-		return null;
+		return root.rejectedNodes(item, new ArrayList<Integer>());
 	}
 	
 	/**
 	 * Modifies the binary tree, so that no nodes exist with a depth grated than specified.
 	 */
 	void pruneAtDepth(int depth) {
-		return;
+		root = root.pruneAtDepth(depth, 0);
 	}
 	
 	
@@ -100,6 +100,41 @@ public class BinarySearchTree {
 			this.left = NULL_NODE;
 			this.right = NULL_NODE;
 		}				
+
+
+		public BinaryNode pruneAtDepth(int depth, int cur) {
+			if (this == NULL_NODE || cur > depth)
+				return NULL_NODE;
+			left = left.pruneAtDepth(depth, cur + 1);
+			right = right.pruneAtDepth(depth, cur + 1);
+			return this;
+		}
+
+
+		public ArrayList<Integer> rejectedNodes(int item, ArrayList<Integer> list) {
+			if (this == NULL_NODE)
+				return null;
+			
+			if (item == data)
+				return list;
+			
+			if (item > data) {
+				if (left != NULL_NODE)
+					list.add(left.data);
+				return right.rejectedNodes(item, list);
+			}
+			
+			if (right != NULL_NODE)
+				list.add(right.data);
+			return left.rejectedNodes(item, list);
+		}
+
+
+		public int product() {
+			if (this == NULL_NODE)
+				return 1;
+			return data * right.product() * left.product();
+		}
 
 
 		// The rest of the methods are used by the unit tests and for debugging
