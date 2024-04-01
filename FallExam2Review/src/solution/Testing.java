@@ -1,4 +1,4 @@
-package BST;
+package solution;
 
 import static org.junit.Assert.*;
 
