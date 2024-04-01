@@ -1,4 +1,4 @@
-package BST;
+package bst;
 
 import static org.junit.Assert.*;
 
@@ -19,13 +19,31 @@ public class Testing {
 	}
 	
 	@Test
-	public void test_hasPositiveProduct() {
-		BinarySearchTree bst = exampleT1();
+	public void testHasPositiveProduct_useEmptyBST_returnFalse() {
+		BinarySearchTree bst = new BinarySearchTree();
+		assertFalse(bst.hasPositiveProduct());
+	}
+	
+	@Test
+	public void testHasPositiveProduct_useNegativeBST_returnFalse() {
+		BinarySearchTree bst = new BinarySearchTree();
+		bst.insert(-10);
+		bst.insert(-5);
+		bst.insert(-15);
+		bst.insert(-25);
+		bst.insert(-1);
+		assertFalse(bst.hasPositiveProduct());
+	}
+	
+	@Test
+	public void testHasPositiveProduct_usePositiveBST_returnTrue() {
+		BinarySearchTree bst = new BinarySearchTree();
+		bst.insert(-10);
+		bst.insert(-5);
+		bst.insert(-15);
+		bst.insert(-25);
+		bst.insert(1);
 		assertTrue(bst.hasPositiveProduct());
-		bst.insert(-100);
-		assertFalse(bst.hasPositiveProduct());
-		bst.insert(0);
-		assertFalse(bst.hasPositiveProduct());
 	}
 	
 	@Test

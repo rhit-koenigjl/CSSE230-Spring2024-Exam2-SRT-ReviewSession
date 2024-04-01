@@ -1,4 +1,4 @@
-package BST;
+package bst;
 
 import java.util.ArrayList;
 
@@ -55,6 +55,36 @@ public class BinarySearchTree {
 	 */
 	public void pruneAtDepth(int depth) {
 		return; // TODO implement this method.
+	}
+	
+	/**
+	 * (HARD PROBLEM)
+	 * Produce a string that contains all elements that are between (inclusive) start and end.
+	 * For example if a tree contains the integers 6, 8, 9, 12, 13, 103,
+	 * the all getAllBetween(10, 13); would return "<9,12,13>"
+	 * Conversely the call getAllBetween(2, 4); would return "<>"
+	 * 
+	 * This method should run in time log(n) + m where m is the size of the input range
+	 */
+	public String getAllBetween(int start, int end) {
+		return ""; // TODO implement this method;
+	}
+	
+	/**
+	 * (HARD PROBLEM)
+	 * Suppose you wanted your tree to only ever have odd leaf nodes. I know, somewhat strange, but bear with me.
+	 * This method should implement a call, 
+	 * that will modify the tree and ensure that all of the leaf nodes ware odd by halving them.
+	 * 
+	 * Supposed there was previously a leaf node with a value of 6, 
+	 * after the call, this leaf node would have two children each with a value of 3.
+	 * 
+	 * But what if the leaf node had a value of 8?
+	 * The expectation is that the node will be "split" into two four nodes, 
+	 * which will each be split into two "two" nodes and each of those will be split into a 1 node.
+	 */
+	public void makeAllLeavesOdd() {
+		return; // TODO implement this method
 	}
 	
 	
