@@ -9,9 +9,6 @@ import java.util.ArrayList;
  * @author
  */
 
-/*
- * TODO: Directions: Implement the methods below. See the paper for details.
- */
 public class BinarySearchTree {
 
 	BinaryNode root;
@@ -28,7 +25,8 @@ public class BinarySearchTree {
 	/**
 	 * Returns true if the total sum of the tree is positive.
 	 * No edit to the insert method should be done.
-	 * Should be implemented using tree recursion in O(n) time
+	 * Should be implemented using tree recursion in O(n) time.
+	 * 
 	 */
 	public boolean hasPositiveProduct () {
 		return false; // TODO implement this method.
@@ -51,9 +49,13 @@ public class BinarySearchTree {
 	}
 	
 	/**
-	 * Modifies the binary tree, so that no nodes exist with a depth greater than specified.
+	 * Modifies the binary tree so that any node that only had one subtree now has another.
+	 * This tree will be a single node with a value +/- 1 from the parent node, depending on whether it is the right or the left.
+	 * 
+	 * NOTE: This will break other future operations on this BST,
+	 * since there can now be duplicate elements.
 	 */
-	public void pruneAtDepth(int depth) {
+	public void fillHalfTrees() {
 		return; // TODO implement this method.
 	}
 	
@@ -82,6 +84,9 @@ public class BinarySearchTree {
 	 * But what if the leaf node had a value of 8?
 	 * The expectation is that the node will be "split" into two four nodes, 
 	 * which will each be split into two "two" nodes and each of those will be split into a 1 node.
+	 * 
+	 * NOTE: Once this operation is performed you can no longer perform other BST Operations.
+	 * Why? because supposed you take a leaf of value 6, and give it two children with values 3 each, now the order in the BST is no longer enforced.
 	 */
 	public void makeAllLeavesOdd() {
 		return; // TODO implement this method

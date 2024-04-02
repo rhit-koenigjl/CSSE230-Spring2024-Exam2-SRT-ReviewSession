@@ -4,63 +4,63 @@ import java.util.ArrayList;
 
 /**
  *
- * Exam 2. Tree methods.
+ * Exam 2. Tree methods solution.
  * 
- * @author
+ * @author JL Koenig
  */
 
-/*
- * TODO: Directions: Implement the methods below. See the paper for details.
- */
 public class BinarySearchTree {
 
 	BinaryNode root;
 
 	// The -17 is arbitrary -any int would be fine since we never refer to it.
-	final BinaryNode NULL_NODE = new BinaryNode(-17); 
+	final BinaryNode NULL_NODE = new BinaryNode(-17);
 
 	public BinarySearchTree() {
 		root = NULL_NODE;
 	}
-	
-	
 
-	/**
-	 * Returns true if the total sum of the tree is positive.
-	 * No edit to the insert method should be done.
-	 * Should be implemented using tree recursion in O(n) time
-	 */
-	boolean hasPositiveProduct () {
+	public boolean hasPositiveProduct() {
+		if (root == NULL_NODE) {
+			return false;
+		}
 		return root.product() > 0;
 	}
-	
-	/**
-	 * Returns an ArrayList of integers,
-	 * which correspond to the data of the rejected nodes in a binary search.
-	 * If the search fails, return null;
-	 */
-	ArrayList<Integer> rejectedNodes(int item) {
-		return root.rejectedNodes(item, new ArrayList<Integer>());
+
+	public ArrayList<Integer> rejectedNodes(int item) {
+		ArrayList<Integer> l = new ArrayList<>();
+		root.rejectedNodes(item, l);
+		return l;
 	}
-	
-	/**
-	 * Modifies the binary tree, so that no nodes exist with a depth grated than specified.
-	 */
-	void pruneAtDepth(int depth) {
-		root = root.pruneAtDepth(depth, 0);
+
+	public void fillHalfTrees() {
+		root.fillHalfTrees();
 	}
-	
-	
+
+	public String getAllBetween(int start, int end) {
+		StringBuilder sb = new StringBuilder();
+		sb.append('<');
+		root.getAllBetween(start, end, sb);
+		if (sb.toString().length() == 1) {
+			return "<>";
+		}
+		String stringWithComma = sb.toString();
+		return stringWithComma.substring(0, stringWithComma.length() - 1) + '>';
+	}
+
+	public void makeAllLeavesOdd() {
+		root.makeAllLeavesOdd();
+	}
 
 	// The next methods are used by the unit tests
 	public void insert(int e) {
 		root = root.insert(e);
 	}
-	
+
 	public int height() {
 		return root.height();
 	}
-	
+
 	public int size() {
 		return root.size();
 	}
@@ -82,6 +82,7 @@ public class BinarySearchTree {
 	public String toString() {
 		return this.toArrayList().toString();
 	}
+
 	public ArrayList<Integer> toArrayList() {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		root.toArrayList(list);
@@ -94,41 +95,12 @@ public class BinarySearchTree {
 		public int data;
 		public BinaryNode left;
 		public BinaryNode right;
-		
+
 		public BinaryNode(int element) {
 			this.data = element;
 			this.left = NULL_NODE;
 			this.right = NULL_NODE;
-		}				
-
-
-		public BinaryNode pruneAtDepth(int depth, int cur) {
-			if (this == NULL_NODE || cur > depth)
-				return NULL_NODE;
-			left = left.pruneAtDepth(depth, cur + 1);
-			right = right.pruneAtDepth(depth, cur + 1);
-			return this;
 		}
-
-
-		public ArrayList<Integer> rejectedNodes(int item, ArrayList<Integer> list) {
-			if (this == NULL_NODE)
-				return null;
-			
-			if (item == data)
-				return list;
-			
-			if (item > data) {
-				if (left != NULL_NODE)
-					list.add(left.data);
-				return right.rejectedNodes(item, list);
-			}
-			
-			if (right != NULL_NODE)
-				list.add(right.data);
-			return left.rejectedNodes(item, list);
-		}
-
 
 		public int product() {
 			if (this == NULL_NODE)
@@ -136,9 +108,81 @@ public class BinarySearchTree {
 			return data * right.product() * left.product();
 		}
 
+		public void rejectedNodes(int item, ArrayList<Integer> list) {
+			if (this == NULL_NODE) {
+				return;
+			}
+
+			if (item == data) {
+				return;
+			}
+
+			if (item > data) {
+				if (left != NULL_NODE) {
+					list.add(left.data);
+				}
+				right.rejectedNodes(item, list);
+			} else if (item < data) {
+				if (right != NULL_NODE) {
+					list.add(right.data);
+				}
+				left.rejectedNodes(item, list);
+			}
+		}
+
+		public void fillHalfTrees() {
+			if (this == NULL_NODE || (this.right == NULL_NODE && this.left == NULL_NODE)) {
+				return;
+			}
+
+			if (this.right != NULL_NODE) {
+				if (this.left == NULL_NODE) {
+					this.left = new BinaryNode(this.data - 1);
+				}
+				this.right.fillHalfTrees();
+			}
+
+			if (this.left != NULL_NODE) {
+				if (this.right == NULL_NODE) {
+					this.right = new BinaryNode(this.data + 1);
+				}
+				this.left.fillHalfTrees();
+			}
+		}
+
+		public void getAllBetween(int start, int end, StringBuilder sb) {
+			if (this == NULL_NODE) {
+				return;
+			}
+
+			if (this.data > end) {
+				this.left.getAllBetween(start, end, sb);
+			} else if (this.data < start) {
+				this.right.getAllBetween(start, end, sb);
+			} else {
+				this.left.getAllBetween(start, end, sb);
+				sb.append(Integer.toString(this.data));
+				sb.append(',');
+				this.right.getAllBetween(start, end, sb);
+			}
+		}
+
+		public void makeAllLeavesOdd() {
+			if (this == NULL_NODE) {
+				return;
+			}
+
+			if (this.left == NULL_NODE && this.right == NULL_NODE && this.data % 2 == 0 && this.data != 0) {
+				this.left = new BinaryNode(data / 2);
+				this.right = new BinaryNode(data / 2);
+			}
+
+			this.left.makeAllLeavesOdd();
+			this.right.makeAllLeavesOdd();
+		}
 
 		// The rest of the methods are used by the unit tests and for debugging
-		
+
 		public BinaryNode insert(int e) {
 			if (this == NULL_NODE) {
 				return new BinaryNode(e);
@@ -156,7 +200,7 @@ public class BinarySearchTree {
 			if (this == NULL_NODE) {
 				return -1;
 			}
-			return Math.max(left.height(), right.height())+1;
+			return Math.max(left.height(), right.height()) + 1;
 		}
 
 		public int size() {
@@ -165,7 +209,7 @@ public class BinarySearchTree {
 			}
 			return left.size() + right.size() + 1;
 		}
-		
+
 		public void toArrayList(ArrayList<Integer> list) {
 			if (this == NULL_NODE) {
 				return;
