@@ -23,7 +23,7 @@ public class BinarySearchTree {
 	
 
 	/**
-	 * Returns true if the total sum of the tree is positive.
+	 * Returns true if the total product of the tree is positive.
 	 * No edit to the insert method should be done.
 	 * Should be implemented using tree recursion in O(n) time.
 	 * 
