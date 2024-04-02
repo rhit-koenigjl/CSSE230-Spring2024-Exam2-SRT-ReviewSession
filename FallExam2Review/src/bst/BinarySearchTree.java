@@ -63,10 +63,12 @@ public class BinarySearchTree {
 	 * (HARD PROBLEM)
 	 * Produce a string that contains all elements that are between (inclusive) start and end.
 	 * For example if a tree contains the integers 6, 8, 9, 12, 13, 103,
-	 * the all getAllBetween(10, 13); would return "<9,12,13>"
+	 * the all getAllBetween(7, 13); would return "<8,9,12,13>"
 	 * Conversely the call getAllBetween(2, 4); would return "<>"
 	 * 
 	 * This method should run in time log(n) + m where m is the size of the input range
+	 * 
+	 * As a fun note, this is a similar problem to one that you will see your Editor Trees M3 homework
 	 */
 	public String getAllBetween(int start, int end) {
 		return ""; // TODO implement this method;
