@@ -38,15 +38,12 @@ public class Testing {
 	}
 	
 	@Test
-	public void testRejectedNodes_useEmptyBST_returnEmptyList() {
+	public void testRejectedNodes_useEmptyBST_returnNull() {
 		BinarySearchTree bst = new BinarySearchTree();
 		ArrayList<Integer> l = new ArrayList<Integer>();
 		int[] solution = {};
-		bst.rejectedNodes(0);
-		assertEquals(solution.length, l.size());
-		for (int i = 0; i < solution.length;i ++) {
-			assertEquals(solution[i], (int) l.get(i));
-		}
+		l = bst.rejectedNodes(0);
+		assertEquals(l, null);
 	}
 
 	@Test
