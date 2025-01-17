@@ -30,7 +30,10 @@ public class BinarySearchTree {
 	 * If the tree is empty, return false.
 	 */
 	public boolean hasPositiveProduct () {
-		return false; // TODO implement this.
+		if (root == NULL_NODE)
+			return false;
+		
+		return root.product() > 0;
 	}
 	
 	/**
@@ -46,7 +49,9 @@ public class BinarySearchTree {
 	 * if at any point you would recurse right, add the value at left.
 	 */
 	public ArrayList<Integer> rejectedNodes(int item) {
-		return null; // TODO implement this.
+		ArrayList<Integer> l = new ArrayList<Integer>();
+		boolean success = root.collectRejectedNodes(item, l);
+		return success ? l : null;
 	}
 	
 	/**
@@ -58,7 +63,7 @@ public class BinarySearchTree {
 	 * since there can now be duplicate elements.
 	 */
 	public void fillHalfTrees() {
-		return; // TODO implement this.
+		root.fillHalfTrees();
 	}
 	
 	/**
@@ -73,7 +78,14 @@ public class BinarySearchTree {
 	 * As a fun note, this is a similar problem to one that you will see your Editor Trees M3 homework
 	 */
 	public String getAllBetween(int start, int end) {
-		return "UNIMPLEMENTED"; // TODO Implement this.
+		if (root == NULL_NODE)
+			return "<>";
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append('<');
+		root.getAllBetween(sb, start, end);
+		String s = sb.toString();
+		return sb.toString().substring(0, sb.length() - 1) + '>'; // TODO implement this method;
 	}
 	
 	/**
@@ -92,7 +104,7 @@ public class BinarySearchTree {
 	 * Why? because supposed you take a leaf of value 6, and give it two children with values 3 each, now the order in the BST is no longer enforced.
 	 */
 	public void makeAllLeavesOdd() {
-		return; //TODO Complete this method.
+		root.makeAllLeavesOdd();
 	}
 	
 	
@@ -145,6 +157,75 @@ public class BinarySearchTree {
 			this.left = NULL_NODE;
 			this.right = NULL_NODE;
 		}				
+
+		public void makeAllLeavesOdd() {
+			if (this == NULL_NODE)
+				return;
+			if (this.left == NULL_NODE && this.right == NULL_NODE) {
+				if (data % 2 == 0) {
+					right = new BinaryNode(data / 2);
+					left = new BinaryNode(data / 2);
+				}
+			}
+			
+			left.makeAllLeavesOdd();
+			right.makeAllLeavesOdd();
+		}
+
+		public void getAllBetween(StringBuilder sb, int start, int end) {
+			if (this == NULL_NODE)
+				return;
+			
+			if (data >= start && data <= end) {
+				left.getAllBetween(sb, start, end);
+				sb.append(Integer.toString(data));
+				sb.append(',');
+				right.getAllBetween(sb, start, end);
+			}
+			
+			if (data >= end) {
+				left.getAllBetween(sb, start, end);
+			}
+			
+			if (data <= start) {
+				right.getAllBetween(sb, start, end);
+			}
+		}
+
+		public void fillHalfTrees() {
+			if (this == NULL_NODE)
+				return;
+			if (right != NULL_NODE && left == NULL_NODE)
+				left = new BinaryNode(data - 1);
+			if (left != NULL_NODE && right == NULL_NODE)
+				right = new BinaryNode(data + 1);
+			
+			left.fillHalfTrees();
+			right.fillHalfTrees();
+		}
+
+		public boolean collectRejectedNodes(int item, ArrayList<Integer> l) {
+			if (this == NULL_NODE)
+				return false;
+			if (item < data) {
+				if (right != NULL_NODE)
+					l.add(right.data);
+				return left.collectRejectedNodes(item, l);
+			}
+			if (item > data) {
+				if (left != NULL_NODE)
+					l.add(left.data);
+				return right.collectRejectedNodes(item, l);
+			}
+			return true;
+			
+		}
+
+		public int product() {
+			if (this == NULL_NODE)
+				return 1;
+			return left.product() * data * right.product();
+		}
 
 		// The rest of the methods are used by the unit tests and for debugging
 		
